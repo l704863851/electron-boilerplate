@@ -9,21 +9,27 @@ const baseConfig = require('./webpack.base.config');
 module.exports = merge.smart(baseConfig, {
     target: 'electron-renderer',
     entry: {
-        app: [path.resolve(__dirname, '../src/renderer/App.tsx')]
+        renderer: path.resolve(__dirname, '../src/renderer/App.tsx')
     },
     module: {
         rules: [
             {
-                test: /\.(gif|png|jpe?g|svg)$/,
+                test: /\.(gif|png|jpe?g|svg|bmp)$/,
                 use: [
-                    'file-loader',
                     {
-                        loader: 'image-webpack-loader',
+                        loader: 'url-loader',
                         options: {
-                            disable: true
+                            limit: 10000,
+                            name: 'img/[hash:8].[name].[ext]'
                         }
                     }
-                ]
+                ],
+                exclude: /node_modules/
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: ['file-loader'],
+                exclude: /node_modules/
             },
             {
                 enforce: 'pre',

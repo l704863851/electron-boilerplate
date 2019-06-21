@@ -9,11 +9,10 @@
         "build": "npm run build-main && npm run build-renderer",
         "start-renderer-dev": "webpack-dev-server --config ./webpack/webpack.renderer.dev.config.js",
         "start-main-dev": "webpack --config ./webpack/webpack.main.config.js && electron ./dist/main.js",
-        "start": "cross-env START_HOT=1 npm run start-renderer-dev",
-        "release:win": "npm run build && electron-builder build --win --x64",
+        "start": "rimraf dist && cross-env START_HOT=1 npm run start-renderer-dev",
+        "release:win": "rimraf dist && npm run build && electron-builder",
         "postinstall": "electron-builder install-app-deps",
-        "format": "prettier --config ./.prettierrc --write ./{src,webpack}/**/*.{ts,tsx,scss,css,js}",
-        "lint": "tslint '{src,test,mocks}/**/*.{ts,tsx}' --project ./tsconfig.json"
+        "format": "prettier --config ./.prettierrc --write ./{src,webpack}/**/*.{ts,tsx,scss,css,js}"
     },
     "husky": {
         "hooks": {
@@ -24,14 +23,10 @@
         "{src,webpack}/**/*.{js,ts,tsx,json,css,scss,md}": [
             "prettier --config ./.prettierrc --write",
             "git add"
-        ],
-        "{src,webpack}/**/*.{js,ts,tsx}": [
-            "tslint --project ./tsconfig.json --fix",
-            "git add"
         ]
     },
     "build": {
-        "productName": "ProductName",
+        "productName": "electron模板",
         "appId": "org.your.productname",
         "mac": {
             "category": "your.app.category.type"
@@ -76,7 +71,7 @@
         "@types/react-hot-loader": "^4.1.0",
         "@types/webpack-env": "^1.13.9",
         "cross-env": "^5.2.0",
-        "css-loader": "^3.0.0",
+        "css-loader": "^1.0.0",
         "electron": "^5.0.4",
         "electron-builder": "^20.44.2",
         "electron-devtools-installer": "^2.2.4",
@@ -85,7 +80,6 @@
         "happypack": "5.0.0-beta.4",
         "html-webpack-plugin": "^3.2.0",
         "husky": "^2.4.1",
-        "image-webpack-loader": "^5.0.0",
         "lint-staged": "^8.2.1",
         "mini-css-extract-plugin": "^0.7.0",
         "node-sass": "^4.12.0",
@@ -104,6 +98,7 @@
         "tslint-config-prettier": "^1.18.0",
         "tslint-react": "^4.0.0",
         "typescript": "^3.5.2",
+        "url-loader": "^2.0.0",
         "webpack": "^4.34.0",
         "webpack-cli": "^3.3.4",
         "webpack-dev-server": "^3.7.2",

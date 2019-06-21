@@ -11,10 +11,10 @@ const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length, id: 'ts' 
 
 module.exports = merge.smart(baseConfig, {
     mode: 'production',
+    devtool: false,
     output: {
-        filename: '[name].[chunkhash:8].js',
-        publicPath: '/',
-        chunkFilename: '[name].[chunkHash:8].js'
+        filename: 'js/[name].[chunkhash:8].js',
+        chunkFilename: 'js/[name].[chunkHash:8].js'
     },
     module: {
         rules: [
@@ -31,7 +31,17 @@ module.exports = merge.smart(baseConfig, {
             {
                 test: /\.scss$/,
                 exclude: /node_modules/,
-                loaders: [MiniCssExtractPlugin.loader, 'css-loader?modules&localIdentName=[local]-[hash:base64:5]', 'sass-loader']
+                loaders: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            localIdentName: '[local]-[hash:base64:5]'
+                        }
+                    },
+                    'sass-loader'
+                ]
             },
             {
                 test: /.*\.less$/,
@@ -42,8 +52,8 @@ module.exports = merge.smart(baseConfig, {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].[contenthash:8].css',
-            chunkFilename: '[name].[contenthash:8].css'
+            filename: 'css/[name].[contenthash:8].css',
+            chunkFilename: 'css/[name].[contenthash:8].css'
         }),
         new HappyPack({
             threadPool: happyThreadPool,
