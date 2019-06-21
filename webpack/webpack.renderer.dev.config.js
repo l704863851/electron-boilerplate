@@ -83,7 +83,8 @@ module.exports = merge.smart(baseConfig, {
                     query: {
                         happyPackMode: true,
                         transpileOnly: true,
-                        configFile: path.resolve(__dirname, '../tsconfig.json')
+                        configFile: path.resolve(__dirname, '../tsconfig.json'),
+                        getCustomTransformers: path.resolve(__dirname, './antdTransformers.js')
                     }
                 }
             ]
