@@ -1,12 +1,9 @@
 const merge = require('webpack-merge');
 const spawn = require('child_process').spawn;
 const path = require('path');
-const HappyPack = require('happypack');
-const os = require('os');
 
 const baseConfig = require('./webpack.renderer.config');
 const theme = require('./antdTheme');
-const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length, id: 'ts' });
 
 module.exports = merge.smart(baseConfig, {
     resolve: {
@@ -42,11 +39,6 @@ module.exports = merge.smart(baseConfig, {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                exclude: /node_modules/,
-                use: ['happypack/loader?id=ts']
-            },
-            {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
                 include: /node_modules/
@@ -67,27 +59,10 @@ module.exports = merge.smart(baseConfig, {
                 ]
             },
             {
-                test: /.*\.less$/,
+                test: /\.less$/,
                 use: ['style-loader', 'css-loader', { loader: 'less-loader', options: { modifyVars: theme } }],
                 include: /node_modules/
             }
         ]
-    },
-    plugins: [
-        new HappyPack({
-            threadPool: happyThreadPool,
-            id: 'ts',
-            use: [
-                {
-                    path: 'ts-loader',
-                    query: {
-                        happyPackMode: true,
-                        transpileOnly: true,
-                        configFile: path.resolve(__dirname, '../tsconfig.json'),
-                        getCustomTransformers: path.resolve(__dirname, './antdTransformers.js')
-                    }
-                }
-            ]
-        })
-    ]
+    }
 });

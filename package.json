@@ -10,7 +10,7 @@
         "start-renderer-dev": "webpack-dev-server --config ./webpack/webpack.renderer.dev.config.js",
         "start-main-dev": "webpack --config ./webpack/webpack.main.config.js && electron ./dist/main.js",
         "start": "rimraf dist && cross-env START_HOT=1 npm run start-renderer-dev",
-        "release:win": "rimraf dist && npm run build && electron-builder",
+        "release:win": "rimraf dist && npm run build && electron-builder --ia32 --x64 -w",
         "postinstall": "electron-builder install-app-deps",
         "format": "prettier --config ./.prettierrc --write ./{src,webpack}/**/*.{ts,tsx,scss,css,js}"
     },
